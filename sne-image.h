@@ -26,8 +26,7 @@ void image(string imgPath, double x, double y) {
 	}
 }
 
-void image(string imgPath, double x, double y, double new_width, double new_height) 
-{
+void image(string imgPath, double x, double y, double new_width, double new_height) {
 	if (loadedSprites.find(imgPath) == loadedSprites.end()) {
 		if (!tempImage.loadFromFile(imgPath)) {
 			sf::err() << "Couldn't load " << imgPath << endl;

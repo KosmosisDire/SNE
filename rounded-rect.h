@@ -3,39 +3,32 @@
 #include <SFML/System/Vector2.hpp>
 
 
-class RoundedRect : public sf::Shape
-{
+class RoundedRect : public sf::Shape {
 public:
-    RoundedRect()
-    {
+    RoundedRect() {
         setSize(10, 10);
         setRadius(3);
     }
 
-    RoundedRect(double width, double height, double radius)
-    {
+    RoundedRect(double width, double height, double radius) {
         setSize(width, height);
         setRadius(radius);
     }
 
-    RoundedRect(double width, double height, double radiusTopLeft, double radiusTopRight, double radiusBottomRight, double radiusBottomLeft)
-    {
+    RoundedRect(double width, double height, double radiusTopLeft, double radiusTopRight, double radiusBottomRight, double radiusBottomLeft) {
         setSize(width, height);
         setRadius(radiusTopLeft, radiusTopRight, radiusBottomRight, radiusBottomLeft);
     }
     
-    void setRadius(double radius)
-    {
+    void setRadius(double radius) {
         setRadius(radius, radius, radius, radius);
     }
 
-    void setRadius(double top, double bottom)
-    {
+    void setRadius(double top, double bottom) {
         setRadius(top, top, bottom, bottom);
     }
 
-    void setRadius(double topLeft, double topRight, double bottomRight, double bottomLeft)
-    {
+    void setRadius(double topLeft, double topRight, double bottomRight, double bottomLeft) {
         double array[] = {topLeft, topRight, bottomRight, bottomLeft};
         if (std::equal(std::begin(array), std::end(array), std::end(this->cornerRadii)))
             return;
@@ -57,8 +50,7 @@ public:
         update();
     }
 
-    void setSize(double width, double height)
-    {
+    void setSize(double width, double height) {
         if (this->width == width && this->height == height)
             return;
 
@@ -67,19 +59,16 @@ public:
         update();
     }
 
-    void setWidth(double width)
-    {
+    void setWidth(double width) {
         setSize(width, this->height);
     }
 
-    void setHeight(double height)
-    {
+    void setHeight(double height) {
         setSize(this->width, height);
     }
 
     mutable double angle = 180.0;
-    sf::Vector2f getPoint(std::size_t index) const override
-    {
+    sf::Vector2f getPoint(std::size_t index) const override {
         static const double PI = 3.14159265358979323846;
 
         if (index == 0) // if this is the first point start the angle over
@@ -117,39 +106,32 @@ public:
         return vector;
     }
 
-    std::size_t getPointCount() const override
-    {
+    std::size_t getPointCount() const override {
         return totalPoints;
     }
     
 
 private:
-    int totalPoints;
     double cornerRadii[4];
     double cornerRadiiClamped[4];
     double cornerRes[4];
     double cornerResSums[4];
+    sf::Vector2f cornerCenters[4];
 
+    int totalPoints;
     double width;
     double height;
 
-    sf::Vector2f cornerCenters[4];
-
-    virtual void update()
-    {
+    virtual void update() {
         std::copy(std::begin(cornerRadii), std::end(cornerRadii), std::begin(cornerRadiiClamped));
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             cornerRadiiClamped[i] = std::min(cornerRadii[i], std::min(width, height) / 2);
         }
         calcCornerCenters();
         Shape::update();
     }
 
-
-
-    void calcCornerCenters()
-    {
+    void calcCornerCenters() {
         sf::Vector2f array[4] =
         {
             sf::Vector2f(cornerRadiiClamped[0], cornerRadiiClamped[0]), // top left
@@ -160,8 +142,7 @@ private:
         std::copy(std::begin(array), std::end(array), std::begin(cornerCenters));
     }
 
-    int indexToCorner(uint16_t index) const
-    {
+    int indexToCorner(uint16_t index) const {
         if (index >= totalPoints)
             return 0;
 
