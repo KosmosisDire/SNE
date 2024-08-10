@@ -1,6 +1,6 @@
 #pragma once
 #include "sne-pde.h"
-
+#include "rounded-rect.h"
 
 sf::RectangleShape r;
 void rect(double x, double y, double w, double h) {
@@ -177,22 +177,54 @@ void roundedRectangleHelper(double x, double y, double w, double h, int r, int s
 	addVertex(xPos - strokeWeight, yPos + strokeWeight);
 }
 
-void roundedRectangle(double x, double y, double w, double h, int r, int pointCount = 0) {
-	int shortestSide = (w < h) ? w : h;
-	r = (r * 2 < shortestSide) ? r : shortestSide / 2;
 
-	// Stroke outline
-	roundedRectangleHelper(x, y, w, h, r, 0, pointCount);
-	activeWindow->draw(&vertices[0], vertices.size(), sf::TriangleFan);
-
-	if (currentStroke == currentFill) {
-		vertices.clear();
-		return;
-	}
-
-	// Inner rounded rectangle
-	roundedRectangleHelper(x, y, w, h, r - abs(currentStrokeWeight), currentStrokeWeight, pointCount);
-	activeWindow->draw(&vertices[0], vertices.size(), sf::TriangleFan);
-
-	vertices.clear();
+RoundedRect rr;
+void roundedRectangle(double x, double y, double w, double h, int r) {
+	rr.setSize(w, h);
+	rr.setRadius(r);
+	rr.setPosition(x, y);
+	rr.setFillColor(currentFill);
+	rr.setOutlineColor(currentStroke);
+	rr.setOutlineThickness(currentStrokeWeight);
+	activeWindow->draw(rr);
 }
+
+void roundedRectangle(double x, double y, double w, double h, int top, int bottom) {
+	rr.setSize(w, h);
+	rr.setRadius(top, top, bottom, bottom);
+	rr.setPosition(x, y);
+	rr.setFillColor(currentFill);
+	rr.setOutlineColor(currentStroke);
+	rr.setOutlineThickness(currentStrokeWeight);
+	activeWindow->draw(rr);
+}
+
+void roundedRectangle(double x, double y, double w, double h, int topLeft, int topRight, int bottomRight, int bottomLeft) {
+	rr.setSize(w, h);
+	rr.setRadius(topLeft, topRight, bottomRight, bottomLeft);
+	rr.setPosition(x, y);
+	rr.setFillColor(currentFill);
+	rr.setOutlineColor(currentStroke);
+	rr.setOutlineThickness(currentStrokeWeight);
+	activeWindow->draw(rr);
+}
+
+// void roundedRectangle(double x, double y, double w, double h, int r, int pointCount = 0) {
+// 	int shortestSide = (w < h) ? w : h;
+// 	r = (r * 2 < shortestSide) ? r : shortestSide / 2;
+
+// 	// Stroke outline
+// 	roundedRectangleHelper(x, y, w, h, r, 0, pointCount);
+// 	activeWindow->draw(&vertices[0], vertices.size(), sf::TriangleFan);
+
+// 	if (currentStroke == currentFill) {
+// 		vertices.clear();
+// 		return;
+// 	}
+
+// 	// Inner rounded rectangle
+// 	roundedRectangleHelper(x, y, w, h, r - abs(currentStrokeWeight), currentStrokeWeight, pointCount);
+// 	activeWindow->draw(&vertices[0], vertices.size(), sf::TriangleFan);
+
+// 	vertices.clear();
+// }

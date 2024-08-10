@@ -6,6 +6,7 @@
 
 void primativeShapesDemo() {
     stroke(255);
+    strokeWeight(2);
     int alpha = 255;
 
 
@@ -39,7 +40,7 @@ void primativeShapesDemo() {
     triangle(230, 130, 280, 130, 255, 180, alpha);
 
     fill(81, 4, 4);
-    roundedRectangle(330, 130, 50, 50, 15);
+    roundedRectangle(330, 130, 50, 50, 15, 0);
 
 
     alpha = 100;
@@ -53,7 +54,7 @@ void primativeShapesDemo() {
     triangle(230, 230, 280, 230, 255, 280, alpha);
 
     fill(81, 4, 4);
-    roundedRectangle(330, 230, 50, 50, 20);
+    roundedRectangle(330, 230, 50, 50, 0, 10, 20, 40);
 
 
     alpha = 25;
@@ -67,7 +68,7 @@ void primativeShapesDemo() {
     triangle(230, 330, 280, 330, 255, 380, alpha);
 
     fill(81, 4, 4);
-    roundedRectangle(330, 330, 50, 50, 60);
+    roundedRectangle(330, 330, 50, 50, 60, 5);
 
 
     activeWindow->display();
@@ -77,6 +78,7 @@ void textDemo() {
     textFont(gothamLight);
     textSize(60);
 
+    fill(255);
     text("Hello World", 10, 30, 400, 50, alignment::centerY);
     
     // Unlike fill, textFont reverts to a default after each use of text
